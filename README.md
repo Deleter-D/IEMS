@@ -4,6 +4,6 @@
 
         本项目功能不完整，仅作为SSM架构与Echarts学习的小型项目，有待后续完善与更新。
 
-![screenshot1.png](D:\StudyAndWork\GitRepository\IEMS\images\screenshot1.png)
+![screenshot1.png](https://github.com/Deleter-D/IEMS/blob/main/images/screenshot1.png)
 
-![screenshot2.png](D:\StudyAndWork\GitRepository\IEMS\images\screenshot2.png)
+![screenshot2.png](https://github.com/Deleter-D/IEMS/blob/main/images/screenshot2.png)
