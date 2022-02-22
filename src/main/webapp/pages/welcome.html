@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+<head>
+    <meta charset="UTF-8">
+    <title>进销管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" href="../public/css/font.css">
+    <link rel="stylesheet" href="../public/css/xadmin.css">
+    <script src="../public/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../public/js/xadmin.js"></script>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-sm12 layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header">最新一周销售额</div>
+                <div class="layui-card-body" style="min-height: 280px;">
+                    <div id="main1" class="layui-col-sm12" style="height: 300px;"></div>
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm12 layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header">支付方式</div>
+                <div class="layui-card-body" style="min-height: 280px;">
+                    <div id="main2" class="layui-col-sm12" style="height: 300px;"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../public/js/jquery.min.js"></script>
+<script src="../public/js/echarts.min.js"></script>
+<script type="text/javascript">
+
+    function convertWeek(data) {
+        var week = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+        return week[data];
+    }
+
+    function getCurrentWeek() {
+        var currentWeek = [];
+        var today = new Date();
+        for (var i = 0; i < 7; i++) {
+            if (today.getDay() + 1 + i > 6) {
+                currentWeek[i] = convertWeek(today.getDay() - 6 + i);
+            } else {
+                currentWeek[i] = convertWeek(today.getDay() + 1 + i);
+            }
+        }
+        return currentWeek;
+    }
+
+    function getCurrent7Day() {
+
+    }
+
+    function getUid() {
+        var url = parent.location.href;
+        var param = url.substring(url.indexOf("?") + 1);
+        var uid = param.substring(param.indexOf("=") + 1);
+        return uid;
+    }
+
+    $(function () {
+
+        // console.log(getCurrentWeek());
+        getCurrent7Day();
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main1'));
+        // 指定图表的配置项和数据
+        var option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#6a7985'
+                    }
+                }
+            },
+            grid: {
+                top: '5%',
+                right: '2%',
+                left: '1%',
+                bottom: '10%',
+                containLabel: true
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: getCurrentWeek()
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value'
+                }
+            ],
+            series: [
+                {
+                    name: '销售额',
+                    type: 'line',
+                    areaStyle: {normal: {}},
+                    data: [120, 132, 101, 134, 90, 230, 210],
+                    smooth: true
+                }
+            ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+    });
+
+
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main2'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: ['微信支付', '支付宝支付', '银行卡支付', '现金支付']
+        },
+        series: [
+            {
+                name: '访问来源',
+                type: 'pie',
+                radius: '55%',
+                center: ['50%', '60%'],
+                data: [
+                    {value: 45, name: '微信支付'},
+                    {value: 40, name: '支付宝支付'},
+                    {value: 5, name: '银行卡支付'},
+                    {value: 10, name: '现金支付'}
+                ],
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.whpu.dao.SaleDao">
+    <select id="getAllSale" resultType="Sale">
+        select *
+        from sale
+    </select>
+    <select id="getSaleById" resultType="Sale">
+        select *
+        from sale
+        where sid = #{sid}
+    </select>
+    <insert id="insertSale" parameterType="Sale">
+        insert into sale(count, totalPrice, saleDate, uid, pid)
+        values (#{count}, #{totalPrice}, #{saleDate}, #{uid}, #{pid})
+    </insert>
+    <delete id="deleteSale" parameterType="int">
+        delete
+        from sale
+        where sid = #{sid}
+    </delete>
+    <update id="updateSale" parameterType="Sale">
+        update sale
+        set count=#{count},
+            totalPrice=#{totalPrice},
+            saleDate=#{saleDate},
+            uid=#{uid},
+            pid=#{pid}
+        where sid = #{sid}
+    </update>
+    <select id="getSaleList" resultType="Sale">
+        select sale.*, users.realName, product.productName
+        from users,
+             product,
+             sale
+        where sale.uid = users.uid
+          and sale.pid = product.pid
+    </select>
+    <select id="getTodaySale" resultType="Sale" parameterType="string">
+        select sale.*, users.realName, product.productName
+        from users,
+             product,
+             sale
+        where sale.uid = users.uid
+          and sale.pid = product.pid
+          and sale.saleDate = #{saleDate}
+    </select>
+</mapper>
